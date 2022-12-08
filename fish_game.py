@@ -21,18 +21,30 @@ game_objects = pygame.sprite.Group()
 game_objects.add(enemy, fish, item)
 num_tiles = screen_rect.width // water_rect.width
 
+fish_img = pygame.image.load('assets/main_2.png')
+fish_mini_img = pygame.transform.scale(fish_img, (50, 50))
 def draw_background():
     for y in range(num_tiles):
         for x in range(num_tiles):
             screen.blit(water, (x*water_rect.width, y*water_rect.height))
 
+def draw_lives(surface, x, y, lives, img):
+    for i in range(lives):
+        img_rect = img.get_rect()
+        img_rect.x = x + 35 * i
+        img_rect.y = y
+        surface.blit(img, img_rect)
+
 coordinate = (0, 0)
+score = 0
+items = []
 clock = pygame.time.Clock()
 
 mixer.init()
 mixer.music.load('assets/Nyan Cat!.mp3')
 mixer.music.play()
 
+running = True
 while True:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEMOTION:
@@ -44,13 +56,14 @@ while True:
     enemy.move(screen_rect.width, screen_rect.height)
     item.move()
 
-    collision = pygame.sprite.collide_rect(fish, enemy)
-    if collision:
-        print("You Hit The Fish!")
+    collision1 = pygame.sprite.collide_rect(fish, enemy)
+    if collision1:
+        fish.lives -= 1
+        fish.kill()
+
 
     draw_background()
-    fish.draw(screen)
-    enemy.draw(screen)
-    item.draw(screen)
+    draw_lives(screen, screen_rect.width - 50, 10, fish.lives, fish_mini_img)
+    game_objects.draw(screen)
     pygame.display.flip()
     clock.tick(70)
