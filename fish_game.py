@@ -63,15 +63,16 @@ while True:
     enemy.move(screen_rect.width, screen_rect.height)
     item.move()
 
+    collision1 = pygame.sprite.collide_rect(fish, enemy)
     if collision1:
-        fish.lives -= 1
+        fish.lives -= -1
         fish.kill()
-        running = False
+        quit()
 
     draw_background()
     draw_lives(screen, screen_rect.width - 50, 10, fish.lives, fish_mini_img)
-    fish.draw(screen)
-    enemy.draw(screen)
-    item.draw(screen)
+    game_objects.draw(screen)
+
+
     pygame.display.flip()
     clock.tick(70)
