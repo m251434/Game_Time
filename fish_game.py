@@ -15,23 +15,24 @@ screen_rect = screen.get_rect()
 
 fish = Fish()
 enemy = Enemy()
+item = Item()
 
 game_objects = pygame.sprite.Group()
-game_objects.add(enemy, fish)
+game_objects.add(enemy, fish, item)
 num_tiles = screen_rect.width // water_rect.width
 
 fish_img = pygame.image.load('assets/main_2.png')
 fish_mini_img = pygame.transform.scale(fish_img, (50, 50))
 
 
-def draw_background():
+def draw_background(): # Draw the background in rows
 
     for y in range(num_tiles):
         for x in range(num_tiles):
             screen.blit(water, (x*water_rect.width, y*water_rect.height))
 
 
-def draw_lives(surface, x, y, lives, img):
+def draw_lives(surface, x, y, lives, img): # Draw the amount of lives bar in the corner
 
     for i in range(lives):
         img_rect = img.get_rect()
@@ -60,6 +61,7 @@ while True:
 
     fish.move(coordinate)
     enemy.move(screen_rect.width, screen_rect.height)
+    item.move()
 
     if collision1:
         fish.lives -= 1
@@ -70,5 +72,6 @@ while True:
     draw_lives(screen, screen_rect.width - 50, 10, fish.lives, fish_mini_img)
     fish.draw(screen)
     enemy.draw(screen)
+    item.draw(screen)
     pygame.display.flip()
     clock.tick(70)
