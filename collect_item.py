@@ -3,9 +3,7 @@ import random
 from pygame.sprite import Sprite
 
 
-
 class Item(Sprite):
-
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load('assets/collect.png')
@@ -13,10 +11,11 @@ class Item(Sprite):
         self.rect.center = (random.randint(40, 600), 0)
 
     def move(self):
-        self.rect.move_ip(0, 3)
+        self.rect.move_ip(0, 5)
         if self.rect.top > 640:
             self.rect.top = 0
             self.rect.center = (random.randint(10, 630), 0)
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
+
